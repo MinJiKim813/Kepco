@@ -1,0 +1,8 @@
+<svg width="56" height="56" viewBox="0 0 56 56" fill="none" xmlns="http://www.w3.org/2000/svg" onclick="javascript:gaEvent('gnb', 'click', 'main_go_rnd');">
+																		<rect width="56" height="56" rx="28" fill="#EFF5FF" class="__icon-bg"></rect>
+																		<g class="__icon">
+																			<path d="M16.8299 22.2745C13.8517 23.7275 12 25.755 12 28C12 32.4185 19.1632 36 28 36C36.8368 36 44 32.4185 44 28C44 23.5815 36.8368 20 28 20C26.698 19.9994 25.3974 20.0795 24.1067 20.24" stroke="#001130" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"></path>
+																			<path d="M33.7255 39.1701C32.2725 42.1483 30.245 44 28 44C23.5815 44 20 36.8368 20 28C20 19.1632 23.5815 12 28 12C32.4185 12 36 19.1632 36 28C36.0006 29.302 35.9205 30.6027 35.76 31.8934" stroke="#001130" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"></path>
+																			<path d="M28 31C29.6569 31 31 29.6569 31 28C31 26.3431 29.6569 25 28 25C26.3431 25 25 26.3431 25 28C25 29.6569 26.3431 31 28 31Z" stroke="#001130" stroke-width="2.1875" stroke-linecap="round" stroke-linejoin="round"></path>
+																		</g>
+																	</svg>

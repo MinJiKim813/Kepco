@@ -1,0 +1,14 @@
+<svg width="56" height="56" viewBox="0 0 56 56" fill="none" xmlns="http://www.w3.org/2000/svg">
+																		<rect width="56" height="56" rx="28" fill="#EFF5FF" class="__icon-bg"></rect>
+																		<g class="__icon">
+																			<path d="M15 42H41" stroke="#001130" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"></path>
+																			<path d="M33 29V19L28 14L23 19V29M33 29L37 42L23 29M33 29L19 42L23 29" stroke="#001130" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"></path>
+																			<path d="M17 21V19H39V21" stroke="#001130" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"></path>
+																			<path d="M17 27.375V25.375H39V27.375" stroke="#001130" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"></path>
+
+																		</g>
+																		<g class="__arrow">
+																			<path d="M29.1113 20.2222L36.8891 27.9999L29.1113 35.7777" stroke="#001130" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"></path>
+																			<path d="M18 28L36.8889 28" stroke="#001130" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"></path>
+																		</g>
+																	</svg>

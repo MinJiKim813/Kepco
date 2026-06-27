@@ -1,0 +1,9 @@
+<svg width="56" height="56" viewBox="0 0 56 56" fill="none" xmlns="http://www.w3.org/2000/svg">
+																		<rect width="56" height="56" rx="28" fill="#EFF5FF" class="__icon-bg"></rect>
+																		<g class="__icon">
+																			<path d="M28 42C35.7324 42 42 35.7318 42 28C42 20.2682 35.7324 14 28 14C20.2682 14 14 20.2682 14 28C14 35.7318 20.2682 42 28 42Z" stroke="#001130" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"></path>
+																			<ellipse cx="27.9996" cy="28.0001" rx="7" ry="14" transform="rotate(-45 27.9996 28.0001)" stroke="#001130" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"></ellipse>
+																			<path d="M18.1016 18.1006L37.9006 37.8996" stroke="#001130" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"></path>
+																			<path d="M37.8984 18.1006L18.0994 37.8996" stroke="#001130" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"></path>
+																		</g>
+																	</svg>
