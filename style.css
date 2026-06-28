@@ -40,10 +40,10 @@ body {
 }
 
 .gnb > ul > li > a {
-    position: relative; /*나중에 호버 밑줄 하게 하려고*/
+    position: relative;
     display: flex;
     align-items: center;
-    height: 70px; /*헤더 높이랑 동일하게 해서 헤더에서 중앙정렬되게 함*/
+    height: 70px;
     font-size: 19px;
     font-weight: 500;
     letter-spacing: -0.03em;
@@ -88,22 +88,6 @@ body {
 .header_util a {
     font-size: 15px;
     color: #1d1d1d;
-}
-
-.header_util a.has_dropdown_arrow {
-    display: inline-flex;
-    align-items: center;
-    gap: 4px;
-}
-
-.header_util_arrow {
-    display: inline-block;
-    width: 7px;
-    height: 7px;
-    border-right: 1.4px solid #1d1d1d;
-    border-bottom: 1.4px solid #1d1d1d;
-    transform: rotate(45deg);
-    margin-top: -3px;
 }
 
 .header_util li:first-child a {
@@ -229,7 +213,6 @@ body {
     line-height: 1.4;
 }
 
-/*hero*/
 .hero {
     position: relative;
     height: calc(100vh - 70px);
@@ -292,8 +275,6 @@ body {
     border-radius: 50%;
     border: none;
     background: rgba(255,255,255,.4);
-    cursor: pointer;
-    padding: 0;
 }
 
 .hero_pagination button.active {
@@ -317,11 +298,6 @@ body {
     z-index: 2;
 }
 
-/* Double-chevron icon to the left of the label — a single ::before
-   pseudo-element with an inline SVG background (two stacked up-chevrons),
-   sized as a small fixed icon box. Sits first in the flex row because
-   it's a ::before, ahead of the text content. No HTML change needed —
-   purely decorative, generated content. */
 .hero_cta::before {
     content: '';
     display: block;
@@ -457,7 +433,6 @@ body {
     display: none;
 }
 
-/* vision */
 .vision{
     height: 100vh;
     position: relative;
@@ -478,22 +453,10 @@ body {
     margin: 0;
 }
 
-.vision_gray{
-    color: #f5f5f5;
-}
-
-/* ── CURTAIN-GROUP: challenge lifts away to reveal leader underneath ────────
-   The leader is pinned at the top of this container (position:sticky).
-   The challenge sits on top (z-index:2) and scrolls over it.
-   When the challenge finishes its 400vh scroll and exits the viewport top,
-   the leader underneath is revealed — exactly like the reference curtain.
-   ──────────────────────────────────────────────────────────────────────── */
 .curtain-group {
     position: relative;
 }
 
-/* Leader: sticky at top of the curtain-group, full viewport height.
-   z-index:1 — sits behind the challenge. */
 .curtain-group .leader {
     position: sticky;
     top: 0;
@@ -501,46 +464,27 @@ body {
     z-index: 1;
 }
 
-/* Challenge: on top of the leader, z-index:2.
-   Its sticky child naturally pins during 400vh travel, then exits upward. */
 .curtain-group .challenge {
     position: relative;
     z-index: 2;
-    /* Negative margin pulls it up to overlap the sticky leader */
     margin-top: -100vh;
 }
 
-/* ── CHALLENGE / TURBINE SCROLL SECTION ────────────────────────────────────
-   Architecture: 18-frame canvas sequence, pinned via ScrollTrigger.
-   Canvas draws pre-decoded ImageBitmaps on scroll — no layout, no flicker.
-   ──────────────────────────────────────────────────────────────────────── */
-
-/* Outer section: height = total scroll travel distance.
-   550vh = 180vh turbine phase + 370vh curtain phase.
-   CURTAIN_START is 0.40 so that 0.40 × 450vh = 180vh of turbine scroll,
-   identical to the original 0.60 × 300vh = 180vh before this height change. */
 .challenge {
     position: relative;
     height: 550vh;
 }
 
-/* Sticky viewport — stays fixed while the 400vh scroll plays out.
-   JS drives translateY in the final phase to create the curtain-lift exit. */
 .challenge_sticky {
     position: sticky;
     top: 0;
     height: 100vh;
     width: 100%;
     overflow: hidden;
-    background: #000;   /* shows during preload before first frame is painted */
+    background: #000;
     will-change: transform;
 }
 
-/* Canvas fills the sticky viewport exactly.
-   JS sets canvas.width/height to match devicePixelRatio for sharp rendering. */
-/* Wrapper: GSAP transforms this element.
-   Using a wrapper (not the canvas itself) allows scale + x + y to all work
-   correctly against the sticky viewport's overflow:hidden boundary.         */
 .challenge_canvas_wrap {
     position: absolute;
     inset: 0;
@@ -548,8 +492,6 @@ body {
     transform-origin: center center;
 }
 
-/* Canvas: fills the wrapper, sized in JS via devicePixelRatio for sharpness.
-   No transform on this element — GSAP owns .challenge_canvas_wrap only.    */
 .challenge_canvas {
     position: absolute;
     inset: 0;
@@ -558,38 +500,25 @@ body {
     display: block;
 }
 
-/* Text overlay — JS spring engine controls transform and opacity directly.
-   NO CSS transition here — the spring does all the easing.                  */
 .vision_text_wrap_2 {
     position: absolute;
     top: 50%;
     left: 50%;
-    transform: translate(-50%, -50%);   /* JS overrides this immediately */
+    transform: translate(-50%, -50%);
     z-index: 10;
     text-align: center;
     white-space: nowrap;
     opacity: 0;
     will-change: transform, opacity;
     pointer-events: none;
-    /* transition intentionally removed — spring engine owns these properties */
 }
 
-/* Revealed state — JS adds this class */
 .vision_text_wrap_2.is-visible {
     opacity: 1;
     transform: translate(-50%, -50%);
     pointer-events: auto;
 }
 
-/* Per-word blue highlight: each .cw-word span gets its OWN `color`,
-   set directly by main.js (see activateWordSweep in the Challenge
-   IIFE) — never the whole <h2> at once. The colors form a TWO-PASS
-   left-to-right wave: a blue wave fills every word first, THEN a white
-   wave fills every word — never a single color interpolated across the
-   whole sentence, and never a word resolving to white before the rest
-   of the sentence has finished turning blue. The value below is only
-   the very first paint before JS runs (the initial pale state for
-   every word). */
 .vision_text_wrap_2 h2 {
     font-size: 76px;
     font-weight: 700;
@@ -600,9 +529,6 @@ body {
     color: rgba(255, 255, 255, 0.55);
 }
 
-/* Reduced motion: show first frame statically, reveal text immediately,
-   parked at the FINAL resting state — solid opaque white, not the pale
-   starting color and not a blue freeze-frame. */
 @media (prefers-reduced-motion: reduce) {
     .challenge                      { height: 100vh; }
     .challenge_sticky               { position: relative; }
@@ -612,8 +538,6 @@ body {
     .leader h2 .lw-word              { color: #ffffff !important; }
 }
 
-/* Base leader styles — position/height/z-index are overridden when
-   inside .curtain-group (see above). The overflow:hidden stays. */
 .leader{
     position: relative;
     height: 100vh;
@@ -634,8 +558,6 @@ body {
     position: absolute;
     top: 50%;
     left: 50%;
-    /* JS drives opacity and translateY in sync with curtain reveal.
-       Starts at visual 100vh (leader's bottom clip). JS overrides on load. */
     transform: translate(-50%, calc(-50% + 50vh));
     opacity: 0;
     font-size: 76px;
@@ -644,8 +566,6 @@ body {
     will-change: transform, opacity;
 }
 
-/* Per-word blue highlight, same two-pass wave mechanism as the Challenge
-   title's .cw-word spans (see that rule for the full explanation). */
 .leader h2 .lw-word {
     color: rgba(255, 255, 255, 0.55);
 }
@@ -657,31 +577,6 @@ body {
     background: rgba(0,0,0,.4);
 }
 
-/* ── VISION FINAL ────────────────────────────────────────────────────────────
-   Uses ONLY earth-planet.jpg — deliberately a different image from
-   .leader's earth.jpg, not a shared/unified Earth. The two Earths are an
-   intentional design choice; the goal is a smoother HANDOFF between them
-   (matching scale/timing at the boundary), not making them the same image.
-
-   Architecture: a 200vh outer section provides scroll distance — 100vh for
-   the sticky inner viewport plus 100vh of actual scroll budget. Its inner
-   .vision_final_inner is position:sticky so the earth + text stay pinned
-   while main.js reads the OUTER section's getBoundingClientRect to compute
-   a 0→1 progress and drive:
-     - a subtle continued scale on earth-planet.jpg (its own independent
-       range, not chained to Leader's earth.jpg scale)
-     - the "Our Vision" text's entrance → hold → exit opacity curve
-
-   The outer height is sized so .vision_final_inner unsticks exactly as
-   .vision_final's box ends — no leftover scroll distance after the sticky
-   content releases, which is what was previously causing a blank gap
-   before .business. A #000 background on the outer section is also kept
-   as a safety net (matches the space/Earth scene either way).
-
-   This intentionally does NOT use a second ScrollTrigger pin — it's the
-   same lightweight getBoundingClientRect approach already used for
-   .challenge's own progress tracking, just applied to a plain section.
-   ──────────────────────────────────────────────────────────────────────── */
 .vision_final {
     position: relative;
     height: 200vh;
@@ -723,11 +618,6 @@ body {
     z-index: 2;
 }
 
-/* Each word/line is its own opacity-only unit — no transform, no movement.
-   main.js sets inline opacity on each .vf-word in sequence (Our Vision →
-   Global → Energy → & → Solution → Leader), so the phrase visibly builds
-   up piece by piece while staying exactly in its final layout position
-   throughout — timing and opacity only, never position. */
 .vf-word {
     display: inline-block;
     opacity: 0;
@@ -755,8 +645,6 @@ body {
 .vision_text_wrap_4 h2 .vf-accent{
     color: #16c6ff;
 }
-
-/*business*/
 
 .business{
     position: relative;
@@ -962,7 +850,6 @@ body {
     opacity: 1;
 }
 
-/* newsroom */
 .newsroom{
     padding: 120px 0;
     background: #fff;
@@ -1288,8 +1175,6 @@ body {
     display: none;
 }
 
-/*esg*/
-
 .esg{
     position: relative;
     height: 460vh;
@@ -1304,8 +1189,6 @@ body {
     background: #fff;
 }
 
-/* ── Background layers ───────────────────────────────────────────────────── */
-
 .esg_bg_base,
 .esg_bg_color{
     position: absolute;
@@ -1314,15 +1197,12 @@ body {
     transform: scale(1.08);
 }
 
-/* Always-present desaturated image — shows through bar holes from the start */
 .esg_bg_base{
     z-index: 1;
     filter: brightness(1.05) saturate(0.75) contrast(1.05);
     opacity: 0.88;
 }
 
-/* Full-colour image revealed upward by the CSS mask.
-   --reveal starts at 0% (nothing shown) and grows to 115% (fully shown). */
 .esg_bg_color{
     z-index: 2;
     filter: brightness(0.9) saturate(1.05);
@@ -1345,11 +1225,6 @@ body {
     );
 }
 
-/* ── SVG white mask ──────────────────────────────────────────────────────── */
-
-/* Full-screen SVG that is pure white everywhere EXCEPT the two bar holes.
-   The holes are drawn by JS with createOpenPath() each frame.
-   opacity is faded to 0 at the end of the colour reveal. */
 .esg_white_mask{
     position: absolute;
     inset: 0;
@@ -1359,10 +1234,6 @@ body {
     pointer-events: none;
 }
 
-/* ── Window overlays ─────────────────────────────────────────────────────── */
-
-/* Visual detail on top of the bar holes: adds subtle top-gradient shadow
-   and sharp border-radius that matches the SVG hole corners. */
 .esg_window{
     position: absolute;
     z-index: 8;
@@ -1384,7 +1255,6 @@ body {
     );
 }
 
-/* Initial position + size — JS updates top/height every scroll frame */
 .esg_window_left{
     left: 5.6%;
     width: 44%;
@@ -1398,8 +1268,6 @@ body {
     top: 45%;
     height: 55%;
 }
-
-/* ── Existing text elements ──────────────────────────────────────────────── */
 
 .esg_header{
     position: absolute;
@@ -1426,14 +1294,14 @@ body {
     position: absolute;
     left: 80px;
     top: 300px;
-    opacity: 0; /* entrance now staggered in by main.js (rightPhase/leftPhase) */
+    opacity: 0;
 }
 
 .stat_right{
     position: absolute;
     right: 160px;
     top: 180px;
-    opacity: 0; /* entrance now staggered in by main.js (rightPhase/leftPhase) */
+    opacity: 0;
 }
 
 .stat_title{
@@ -1532,8 +1400,6 @@ body {
     width: 84px;
 }
 
-/*service*/
-
 .service {
     padding: 120px 0;
     overflow: hidden;
@@ -1565,13 +1431,6 @@ body {
     position: absolute;
     top: 0;
     right: 20%;
-}
-
-.service_header h2 {
-    font-size: clamp(48px, 6vw, 80px);
-    font-weight: 400;
-    line-height: 1;
-    text-transform: capitalize;
 }
 
 .container_box {
@@ -1693,8 +1552,6 @@ body {
     line-height: 1.6;
     color: #666;
 }
-
-/*main_stat*/
 
 .main_stat {
     padding: 80px 80px;
@@ -1911,8 +1768,6 @@ body {
     display: block;
 }
 
-/* ─── FOOTER ─────────────────────────────────────────────────────────────── */
-
 footer {
     background: #fff;
     border-top: 1px solid #e5e5e5;
@@ -1927,8 +1782,6 @@ footer {
     max-width: 1800px;
     margin: 0 auto;
 }
-
-/* ─── LEFT COLUMN ─────────────────────────────────────────────────────────── */
 
 .footer_left {
     display: flex;
@@ -1949,7 +1802,6 @@ footer {
     gap: clamp(12px, 1.5vw, 20px);
 }
 
-/* Address row */
 .footer_info_address {
     display: flex;
     align-items: center;
@@ -1982,7 +1834,6 @@ footer {
     display: block;
 }
 
-/* Policy links + copyright */
 .footer_info {
     display: flex;
     gap: clamp(12px, 1.5vw, 20px);
@@ -2002,7 +1853,6 @@ footer {
     align-items: center;
 }
 
-/* Pipe separator */
 .footer_info ul li + li::before {
     content: '|';
     padding: 0 clamp(8px, 0.8vw, 12px);
@@ -2016,7 +1866,6 @@ footer {
     white-space: nowrap;
 }
 
-/* Bold emphasis on 개인정보처리방침 */
 .footer_info ul li:first-child a span {
     font-weight: 700;
     color: #1d1d1d;
@@ -2027,8 +1876,6 @@ footer {
     color: #999;
 }
 
-/* ─── RIGHT COLUMN ────────────────────────────────────────────────────────── */
-
 .footer_right {
     display: flex;
     flex-direction: column;
@@ -2036,7 +1883,6 @@ footer {
     flex-shrink: 0;
 }
 
-/* Family Site button */
 .family_site_btn button {
     display: flex;
     align-items: center;
@@ -2062,7 +1908,6 @@ footer {
     line-height: 1;
 }
 
-/* Award logos */
 .footer_awards_logo {
     display: flex;
     align-items: center;
@@ -2075,13 +1920,9 @@ footer {
     width: auto;
     display: block;
 }
-/* ── Performance hints for major animated elements ─────────────────────── */
+
 .challenge_canvas_wrap {
     will-change: transform;
-}
-
-.vision_text_wrap_2 {
-    /* will-change set above in main block */
 }
 
 .esg_bg_base,
@@ -2095,16 +1936,6 @@ footer {
     will-change: opacity, transform;
 }
 
-/* ─── DESKTOP SECTION NAV (new) ──────────────────────────────────────────
-   Six-dot persistent section indicator, separate from .hero_pagination
-   (Hero's own carousel dots, left completely untouched) and from
-   #sectionNav (768px up/down control). Confirmed against the reference
-   recording: invisible while Hero is on screen — .hero_scroll alone
-   covers that range, same as #sectionNav's own behavior — then fixed at
-   one screen position from the moment scroll passes Hero through every
-   section down to Service. main.js toggles `.is-active` (mirrors
-   #sectionNav's own show/hide class) and `.active` per dot; this file
-   only defines the visual states, never inline styles. */
 .desktop_section_nav {
     display: none;
 }

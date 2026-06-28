@@ -1,44 +1,12 @@
-/* ═══════════════════════════════════════════════════════════════════════════
-   RESPONSIVE LAYER — 480px MOBILE ONLY
-   ─────────────────────────────────────────────────────────────────────────
-   Scope note: only @media (max-width: 480px) is implemented in this layer.
-   No 768px, 1024px, or 360px rules exist anywhere below — those breakpoints
-   were removed because no reference material (screenshots, video, or live
-   site captures) was supplied for them. Above 480px, every section reverts
-   to the original, unmodified desktop behavior defined earlier in this file.
-
-   Everything in this block is derived from material actually supplied:
-     - The KEPCO mobile reference video (480px-width screen recording)
-     - The live 480px screenshots of the actual KEPCO mobile site
-   No behavior here was invented, estimated, or interpolated for any width
-   other than 480px.
-═══════════════════════════════════════════════════════════════════════════ */
-
-/* Base state — hidden by default at any width above 480px, since the
-   panel's full-screen overlay styling only exists inside the 480px block
-   below. Without this, the panel's content (a plain <div> with no
-   display rule of its own) would render in normal page flow above
-   480px, pushing real content downward. This must stay OUTSIDE the media
-   query so the cascade has a default to fall back to once the override
-   stops applying. */
 .mobile_nav_panel {
     display: none;
 }
 
-/* section_nav: the persistent up/down navigator confirmed to exist only
-   at the 768px tablet width (see the 768px Hero comment block for the
-   full reasoning) — hidden by default for the same reason as
-   .mobile_nav_panel above, then made visible only inside the 768px
-   media query further down this file. */
 .section_nav {
     display: none;
 }
 
 @media (max-width: 480px) {
-
-    /* ── 1. HEADER / GNB ─────────────────────────────────────────────────
-       Mobile reference shows: logo + search + hamburger only; full GNB
-       and secondary icon utilities (youtube/eng/login) hidden. */
 
     .gnb,
     .header_util,
@@ -71,8 +39,6 @@
         height: 20px;
     }
 
-    /* Mobile nav panel — full-screen accordion overlay, opened by the
-       hamburger button. JS interaction in main.js section "MOBILE NAV". */
     .mobile_nav_panel {
         display: block;
         position: fixed;
@@ -185,28 +151,20 @@
         color: #555;
     }
 
-    /* Lock page scroll while the panel is open — JS toggles this class on body */
     body.mobile_nav_open {
         overflow: hidden;
     }
-
-
-    /* ── 2. MAIN VISUAL (HERO) ───────────────────────────────────────────
-       No JS exists for this section (pagination/progress/pause are static
-       in this build) — every change here is CSS-only. Reference confirms
-       caption, CTA, title, and controls all stay visible; CTA relocates
-       above the title instead of floating bottom-right as on desktop. */
 
     .hero {
         height: calc(100vh - 56px);
     }
 
     .hero_pagination {
-        display: none; /* replaced visually by the existing .hero_progress bar */
+        display: none;
     }
 
     .desktop_section_nav {
-        display: none !important; /* desktop-only component; 480px keeps using #sectionNav instead */
+        display: none !important;
     }
 
     .hero_cta {
@@ -244,12 +202,6 @@
         bottom: 18px;
     }
 
-    /* Hidden on mobile to match the 768px tablet treatment below — the
-       reference shows no scroll-indicator control at this width either;
-       .section_nav (defined near the end of this file) covers navigation
-       once the user scrolls past Hero, same as at 768px. Sizing rules
-       below are kept as-is (harmless while hidden) rather than removed,
-       since they were already part of the existing implementation. */
     .hero_scroll {
         display: none;
         bottom: 16px;
@@ -261,17 +213,6 @@
         width: 16px;
         height: 16px;
     }
-
-
-    /* ── 3. VISION INTRO ("새로운 에너지 대전환 시대") ─────────────────────
-       Root cause of the wrap/size mismatch: .vision_text_wrap is
-       position:absolute with no width of its own, so it shrinks to fit
-       .vision_title's auto width — leaving max-width nothing to actually
-       apply against (same shrink-to-fit issue fixed for Challenge/Vision
-       Final). Fix: give the wrap an explicit width so max-width on the
-       title has real room. 65vw at font-size 44px reproduces the
-       original's "새로운 에너지" / "대전환 시대" 2-line break and text
-       scale — confirmed by re-rendering against the reference video. */
 
     .vision {
         height: calc(100vh - 56px);
@@ -291,19 +232,6 @@
         word-break: keep-all;
     }
 
-
-    /* ── 4. CHALLENGE (turbine canvas) ───────────────────────────────────
-       Architecture (.challenge / .challenge_sticky / .challenge_canvas_wrap
-       / canvas) is viewport-size-agnostic already — sticky pin, vh-based
-       outer height, and JS reading offsetWidth/offsetHeight all adapt
-       automatically. The ONLY change needed is letting the title wrap to
-       2 lines and scaling its font — .cw-word spans already exist
-       per-word for this. No Challenge spring constants (LERP,
-       SCALE_START/END, Y_START/END, CURTAIN_START, TEXT_LERP, etc.) are
-       touched here.
-       36px keeps the title at 2 lines ("끊임없는" / "도전과 혁신으로");
-       sizes above ~38px push a 3rd line. */
-
     .vision_text_wrap_2 {
         width: 92vw;
     }
@@ -318,17 +246,6 @@
         word-break: keep-all;
     }
 
-
-    /* ── 5. LEADER (earth + Korean text, inside .curtain-group) ──────────
-       Curtain-lift reveal mechanism (applyCurtainLift translating
-       .challenge_sticky by vh, leader_earth scale, text rise via
-       innerHeight-relative TEXT_TRAVEL_VH) is kept exactly as-is — already
-       expressed in vh/innerHeight units, no JS change needed. Only the
-       title's font-size/wrap is adjusted, same pattern as Challenge,
-       since .lw-word spans already exist per-word.
-       30px keeps the title at 2 lines ("글로벌 에너지 리더로" /
-       "나아갑니다"); sizes above ~32px push a 3rd line. */
-
     .leader h2 {
         font-size: 44px;
         white-space: normal;
@@ -338,17 +255,6 @@
         text-align: center;
         word-break: keep-all;
     }
-
-
-    /* ── 6. VISION FINAL (Our Vision / Global Energy & Solution Leader) ──
-       getBoundingClientRect()-based progress and word-slice timing in
-       main.js are already fractional/viewport-relative — no JS change
-       needed. Same shrink-to-fit root cause as Vision above: widened
-       .vision_text_wrap_4 to 70vw (was too narrow, forcing a 3rd line at
-       font-size 44px) so max-width on the h2 has real room. 70vw at
-       font-size 44px reproduces the original's "Global Energy &" /
-       "Solution Leader" 2-line break and text scale — confirmed by
-       re-rendering against the reference video. */
 
     .vision_text_wrap_4 {
         width: 70vw;
@@ -367,30 +273,6 @@
         line-height: 1.25;
         word-break: keep-all;
     }
-
-
-    /* ── 7. BUSINESS AREA ─────────────────────────────────────────────────
-       Desktop's infinite marquee (.business_slider, rAF-driven translateX,
-       clone-shuffling) becomes a plain vertical stacked list — no
-       swipe/drag observed in the reference, just normal scroll. The
-       marquee JS is gated off at this width in main.js (see that file).
-
-       Card visual treatment is KEPT IDENTICAL to desktop — full-bleed
-       image, title overlaid top-left (.business_content, already
-       position:absolute in the desktop rule), icon badge overlaid
-       bottom-right (.business_icon, already position:absolute),
-       description paragraph already opacity:0 by default with no touch
-       equivalent to :hover, so it stays invisible with no extra rule
-       needed. Confirmed against live 480px screenshots of the actual
-       KEPCO mobile site — cards are NOT converted to a row/list-item
-       layout; only the slider direction and each card's aspect-ratio
-       change.
-
-       Aspect ratio (10/3) is measured directly from two cards in the live
-       reference screenshots (646×195 and 646×191 screenshot-px at a
-       480px DevTools viewport, ≈3.31:1 and ≈3.38:1, averaging ≈3.35:1) —
-       not an arbitrary choice. 10/3 ≈ 3.33:1 sits within 1% of both
-       measurements. */
 
     .business {
         padding: 56px 0;
@@ -413,7 +295,7 @@
     }
 
     .business .container_box {
-        display: none; /* prev/next controls are a desktop-only affordance; not present in the live mobile reference for this section */
+        display: none;
     }
 
     .business_slider {
@@ -422,34 +304,19 @@
         margin-top: 28px;
         padding: 0 20px;
         width: 100%;
-        transform: none !important; /* JS marquee is gated off; never offset */
+        transform: none !important;
     }
 
     .business_area_item {
         width: 100%;
     }
 
-    /* Card itself: same overlay structure as desktop (position:relative,
-       border-radius, overflow:hidden — all inherited, untouched). Only
-       the fixed desktop height:600px (tuned for a 390px-wide card) is
-       replaced with the measured mobile aspect-ratio, since a 600px-tall
-       card at full mobile width would be far taller than the reference. */
     .business_card {
         height: auto;
         aspect-ratio: 10 / 3;
         border-radius: 16px;
     }
 
-    /* .business_content / .business_content h3 / .business_icon overlay
-       placement and color are kept at desktop's values (position:absolute,
-       white title, icon badge position) — matching the live reference's
-       overlay-on-image card. .business_content p stays at its desktop
-       default (opacity:0, no hover trigger on touch), so no rule is
-       needed to hide it. Title font-size measured directly from the live
-       480px screenshot (card title cap-height converts to ~33-37px CSS
-       px); using 34px. Overlay offsets (20px) are an unverified
-       implementation default, not measured — kept small/proportionate
-       but not confirmed against a pixel measurement. */
     .business_content {
         top: 10px;
         left: 20px;
@@ -469,27 +336,6 @@
         height: 44px;
     }
 
-
-    /* ── 8. NEWSROOM ──────────────────────────────────────────────────────
-       Confirmed mobile order from the live KEPCO mobile reference:
-       box1 → main_box → box2 → news_banner. Nothing is hidden or
-       duplicated — .main_box keeps its image, title, and date exactly as
-       on desktop.
-
-       Desktop DOM nesting is .newsroom_container_box > [.main_box,
-       .center_area > [.box1, .box2], .news_banner] — .box1/.box2 are
-       nested one level deeper than .main_box/.news_banner, which is why a
-       plain `order` swap can't interleave them (order only works among
-       siblings in the same flex/grid context). `.center_area { display:
-       contents; }` removes .center_area's own box at this breakpoint,
-       promoting .box1 and .box2 to true direct flex-children of
-       .newsroom_container_box — at that point all four blocks share one
-       flex context and `order` can sequence them as box1(1) →
-       main_box(2) → box2(3) → news_banner(4). Zero HTML changes, zero
-       DOM moves, zero duplicated content; desktop's .center_area rule
-       (flex column, gap:24px, outside any media query) is completely
-       unaffected since this override only exists in this 480px block. */
-
     .newsroom {
         padding: 56px 0;
     }
@@ -508,7 +354,6 @@
         gap: 28px;
     }
 
-    /* The reorder mechanism — see comment block above. */
     .center_area {
         display: contents;
     }
@@ -518,15 +363,6 @@
     .box2        { order: 3; }
     .news_banner { order: 4; }
 
-    /* .box1's <a> rows contain nowrap text, which gives them an
-       intrinsic min-content width wider than the 480px viewport. In the
-       desktop 3-column grid, the grid track itself constrained that
-       width; once .box1 is a direct flex-child of .newsroom_container_box
-       (via .center_area's display:contents above), it needs its own
-       min-width:0 to shrink to the column instead of sizing to its
-       content. .center_area itself no longer needs width/min-width here
-       — display:contents removes its box, so those properties would have
-       no element to apply to. */
     .main_box,
     .news_banner {
         width: 100%;
@@ -539,10 +375,6 @@
         min-width: 0;
     }
 
-    /* Featured story keeps its image and visual prominence — only the
-       3-column desktop grid collapses to a single column. The thumbnail's
-       existing aspect-ratio/border-radius rules (desktop block above) are
-       untouched; only its margin is tightened for narrower width. */
     .main_box_thumb {
         margin-bottom: 16px;
     }
@@ -572,29 +404,6 @@
         max-height: 320px;
     }
 
-
-    /* ── 8.5 ESG ──────────────────────────────────────────────────────────
-       Desktop positions every layer with absolute px (.esg_header,
-       .stat_left/.stat_right, .esg_text_wrap, .esg_cards) sized for a
-       1440px-wide canvas, with .esg_cards laid out as a flex ROW. None of
-       that was scoped to 480px before this block, so at mobile width the
-       title/stat numbers rendered at full desktop font-size stacked on
-       top of each other, and the 3 ISO cards overflowed sideways off the
-       right edge of the viewport. Everything below is re-derived from the
-       480px reference recording (pixel-measured against the 480x840
-       devtools viewport) rather than guessed from the desktop layout.
-
-       IMPORTANT — main.js's ESG draw() loop is NOT touched and needs no
-       change: the mask/window geometry it writes every frame (leftHole/
-       rightHole path %, winLeft/winRight top/height %) is already
-       percentage-based against a 100x100 SVG viewBox, so it reflows
-       correctly at any viewport size on its own. Likewise draw() sets
-       opacity/transform directly via inline style on .esg_desc/.esg_btn/
-       .esg_card (revealUp()) — inline styles win over any CSS here
-       regardless of specificity, so this block only ever touches
-       position/size/typography, never opacity or transform, to avoid
-       fighting the rAF loop. */
-
     .esg_header {
         top: 80px;
         left: 20px;
@@ -604,13 +413,6 @@
         font-size: 40px;
     }
 
-    /* Desktop's .stat_left/.stat_right use absolute px tuned for a wide
-       canvas (left:80px/top:300px and right:160px/top:180px) — those
-       push both blocks past a 480px edge. Mobile keeps the same relative
-       arrangement seen in the recording: 임직원 (right/featured stat)
-       sits upper-right starting just past the horizontal midpoint,
-       온실가스 (left stat) sits lower-left flush with the viewport edge
-       so its number lines up with the left video window below it. */
     .stat_left {
         left: 0;
         top: 573px;
@@ -628,19 +430,12 @@
         line-height: 1.2;
     }
 
-    /* Desktop's .stat_value is a single flex row (number + unit side by
-       side); the recording shows the unit stacked BELOW the number on
-       mobile, so the row direction is switched to column here. */
     .stat_value {
         flex-direction: column;
         align-items: flex-start;
         gap: 2px;
     }
 
-    /* 임직원 (right stat, the visually "featured" one) reads larger than
-       온실가스 in the recording — 64px vs 52px — rather than sharing one
-       size as on desktop, so each block's number is sized individually
-       instead of through the shared .stat_value strong rule. */
     .stat_right .stat_value strong {
         font-size: 64px;
     }
@@ -654,12 +449,6 @@
         margin-bottom: 0;
     }
 
-    /* Desktop's .esg_text_wrap pins the description/button block to
-       top:10%/right:30%, sized for a wide canvas where there's room
-       beside the headline. On a 480px canvas that overlaps the ESG
-       title above it, so this becomes a normal top-of-viewport block:
-       two lines of body copy on the left with the 더보기 button
-       floated to the right of the first line, matching the recording. */
     .esg_text_wrap {
         top: 20%;
         left: 20px;
@@ -685,17 +474,11 @@
         border-radius: 8px;
     }
 
-    /* Desktop's .esg_cards is a flex ROW of 3 equal-width cards (flex:1
-       each) — the cause of the 3rd card overflowing off-screen at 480px.
-       The recording shows the cards full-width and stacked, so this
-       switches the container to a column and lets each .esg_card take
-       100% of the width instead of sharing a row. */
     .esg_cards {
         left: 0;
         bottom: 0;
         transform: none;
         width: 100%;
-        padding: 50px 20px;
         flex-direction: column;
         gap: 18px;
     }
@@ -719,16 +502,6 @@
     .card_icon img {
         width: 72px;
     }
-
-
-    /* ── 9. SERVICE ───────────────────────────────────────────────────────
-       Desktop's click-driven JS carousel (moveSlider/getMoveWidth/clone-
-       shuffling) is gated off at this width in main.js; native scroll-snap
-       takes over for swipe, with a single full-width card per view
-       (confirmed against the mobile reference recording — not 2-up). The
-       prev/next buttons are wired to a mobile-specific handler in main.js
-       that calls scrollBy() by one card width per click, rather than the
-       desktop transform carousel. */
 
     .service {
         padding: 56px 0;
@@ -760,9 +533,7 @@
         scroll-snap-type: x mandatory;
         -webkit-overflow-scrolling: touch;
         padding: 0 20px;
-        gap: 20px; /* measured against the KEPCO reference — desktop's clamp(16px,1.5vw,32px)
-                      floors to 16px at this viewport, a few px tighter than the original */
-        transform: none !important; /* JS carousel is gated off; never offset */
+        transform: none !important;
         scrollbar-width: none;
     }
 
@@ -770,28 +541,11 @@
         display: none;
     }
 
-    /* Reference shows ~2 cards per view with the next card peeking in at the right
-       edge (and a sliver of the previous card at the left edge once scrolled),
-       NOT one full-viewport-width card per swipe. calc(100vw - 40px) (≈440px)
-       was nearly the full viewport and is what caused the oversized cards;
-       232px is pixel-measured against the reference screenshot and keeps
-       .service_thumbnail's desktop aspect-ratio (3/4) intact since that
-       property is untouched here. */
     .service_contents article {
         scroll-snap-align: start;
-        width: 232px;
+        width: calc(100vw - 40px);
         flex-shrink: 0;
     }
-
-
-    /* ── 10. STATISTICS (.main_stat realtime power box) ──────────────────
-       Reference shows realtime_box keeping its title+CTA on one row (same
-       as desktop) with the date/refresh row stacked directly underneath,
-       NOT box_head going to a column. banner_box is NOT desktop's tall
-       column-with-image-flush-to-bottom: the reference shows a short,
-       compact box where the title+button stack sits on the left and a
-       small illustration sits vertically centered on the right — a row
-       layout, not a column. */
 
     .main_stat {
         padding: 48px 20px;
@@ -814,33 +568,8 @@
 
     .box_head {
         flex-direction: column;
-        align-items: stretch;
-        gap: 8px;
-        margin-bottom: 24px;
-    }
-
-    .box_head_left {
-        flex-direction: row;
-        align-items: center;
-        justify-content: space-between;
-        gap: 10px;
-    }
-
-    .box_head_left h3 {
-        font-size: 20px;
-    }
-
-    .cta a {
-        padding: 8px 12px;
-        font-size: 13px;
-    }
-
-    .box_date_wrap {
-        margin-top: 0;
-    }
-
-    .box_date_wrap span {
-        font-size: 13px;
+        align-items: flex-start;
+        gap: 12px;
     }
 
     .left_area {
@@ -862,45 +591,14 @@
         padding: 10px 6px;
     }
 
-    /* banner_box: reference is a short row-layout card, not desktop's tall
-       column with the image flush against the bottom edge. flex-direction
-       switches to row so the text block and illustration sit side by side,
-       vertically centered, matching the compact proportions in the
-       reference rather than desktop's much taller stacked arrangement. */
     .banner_box {
-        flex-direction: row;
-        align-items: center;
-        justify-content: space-between;
-        gap: 12px;
-        padding: 24px 20px;
-    }
-
-    .banner_box_head_contents {
-        margin-bottom: 0;
-        width: auto;
-        flex-shrink: 0;
-    }
-
-    .banner_box_head_contents h3 {
-        font-size: 17px;
-        margin-bottom: 10px;
+        padding: 28px 28px 0 28px;
     }
 
     .banner_box > img {
-        width: 24%;
-        margin-left: 0;
-        align-self: center;
+        width: 70%;
     }
 
-    /* Desktop's bottom:-20% offset is relative to .main_stat_inner and
-       only reads correctly at desktop's wide aspect ratio, so here this
-       becomes position:fixed, pinned to the viewport corner — matching
-       how it reads in the reference (anchored bottom-right regardless of
-       scroll position). It starts hidden (.is-visible is required to
-       show it) so it doesn't render at the very top of the page on load;
-       main.js toggles that class based on scroll distance, mirroring a
-       standard "back to top" pattern and the reference's behavior of
-       only appearing after scrolling down. */
     .go_top_btn {
         position: fixed;
         right: 16px;
@@ -917,16 +615,6 @@
         visibility: visible;
         transform: translateY(0);
     }
-
-
-    /* ── 11. FOOTER ───────────────────────────────────────────────────────
-       Desktop row layout stacks to a single column. No footer accordion
-       is introduced — the header's mobile_nav_panel (always reachable via
-       the fixed hamburger button) already gives complete access to every
-       site section, so a second copy of the same nav data in the footer
-       would be pure duplication with no added capability. `order` is used
-       to match the reference's visual sequencing without reordering the
-       underlying DOM. */
 
     footer {
         padding: 24px 0 32px;
@@ -986,50 +674,7 @@
 
 }
 
-
-/* ═══════════════════════════════════════════════════════════════════════════
-   RESPONSIVE LAYER — 768px TABLET
-   ─────────────────────────────────────────────────────────────────────────
-   Scoped to (min-width:481px) and (max-width:768px) so it sits strictly
-   between the 480px block above and desktop, and never fires alongside the
-   480px rules (the two ranges are mutually exclusive by construction, but
-   the explicit min-width keeps that true even if either threshold is ever
-   adjusted later).
-
-   Everything below is derived from frame-by-frame analysis of the supplied
-   768px reference recording (a DevTools "Responsive — 768×840" capture of
-   the live kepco.co.kr site), cross-measured against the actual rendered
-   pixel positions in that recording (gridded overlays + colour-threshold
-   bounding boxes), not estimated or interpolated from the desktop or 480px
-   layouts.
-
-   KEY FINDING that shapes most of this block: unlike 480px (which shrinks
-   nearly every headline), the 768px reference keeps the cinematic
-   scroll-story titles — .vision_title, the Challenge title, the Leader
-   title, and Vision Final's h2 — at (or very near) their DESKTOP font
-   sizes. Measured glyph cap-heights and line-to-line spacing for all three
-   76px desktop titles converge on ~75-80px at 768px, and Vision Final's
-   "Our Vision" (42px) / "Global Energy & Solution Leader" (90px) converge
-   on those same desktop values too. The only thing that changes for these
-   is `white-space` (nowrap → normal) and a `max-width` so the words that
-   already exist as individual spans (.cw-word/.lw-word/.vf-word) wrap onto
-   a second line at the 768px-width word boundary the reference shows,
-   instead of overflowing. No JS constants (LERP, CURTAIN_START, SCALE_*,
-   Y_*, TEXT_*, BLUE_WAVE_END, etc.) are touched — that whole system is
-   already expressed in vh / window.innerHeight / getBoundingClientRect
-   fractions, which adapt to any viewport size on their own.
-
-   Everything else (Business, Newsroom, ESG chrome, Service, Stats, Footer)
-   is sized/positioned from direct pixel measurement of the reference. */
-
 @media (min-width: 481px) and (max-width: 768px) {
-
-    /* ── 1. HEADER / GNB ─────────────────────────────────────────────────
-       Identical pattern to 480px: logo + search + hamburger only, full GNB
-       and the secondary util icons (youtube/eng/login) hidden. Measured
-       header height ~56-59px and logo height ~24px in the reference are
-       within rounding of the 480px values, so the same numbers are reused
-       rather than invented new ones. */
 
     .gnb,
     .header_util,
@@ -1066,11 +711,6 @@
         font-size: 10px;
     }
 
-    /* Mobile nav panel reuses the exact 480px full-screen accordion overlay
-       — the reference recording never shows it opened, but the hamburger
-       icon is present and must lead somewhere; the 480px implementation is
-       the only built mechanism for that, and nothing in the recording
-       contradicts it (no GNB redesign is visible at this width). */
     .mobile_nav_panel {
         display: block;
         position: fixed;
@@ -1187,50 +827,16 @@
         overflow: hidden;
     }
 
-
-    /* ── 2. MAIN VISUAL (HERO) ───────────────────────────────────────────
-       Re-measured with the corrected viewport scale (the reference capture
-       is 1087×1187 screenshot-px for a 768×840 CSS viewport, scale
-       1087/768 = 1.41536 — the original pass used a wrong scale derived
-       from a mis-identified crop boundary).
-
-       CTA pill: left 41px, bottom 306.5px from viewport bottom, height 47px.
-       Title block: left 41.7px, two lines with glyph height ~62px and
-       line-to-line top gap ~91.8px — at line-height 1.2 that is font-size
-       76px (91.8/1.2), matching this site's other cinematic titles
-       (vision/challenge/leader all use 76px on desktop) rather than a
-       reduced mobile size. Title block bottom (last line baseline) sits
-       ~116.5px above the viewport bottom.
-       Caption: height ~20.5px glyph -> ~26px font, right edge 41px from
-       viewport right (same 41px margin the CTA/title/header-icons all
-       share), top ~107px.
-       hero_control (progress+pause): track left 40px, bottom 68.5px from
-       viewport bottom — desktop's own clamp(25px,4vh,50px) undershoots
-       this, so it needs an explicit override. hero_pause itself needs NO
-       override: desktop's clamp(14px,0.8vw,16px) already resolves to 14px
-       at this width, matching the measured ~13px button.
-       hero_scroll: re-verified against the reference recording frame-by-
-       frame — at 768px, Hero itself shows NO scroll-indicator control at
-       all (the bottom-right corner is empty; only CTA/progress/pause are
-       present). The dark rounded-square button with a stem+arrowhead
-       arrow that appears to sit "in" this corner is actually a SEPARATE,
-       page-level component (.section_nav) that only starts appearing
-       once you scroll past Hero, and persists across every section below
-       it — swapping between up/down arrows depending on whether a
-       previous/next section exists. .hero_scroll is hidden at this
-       breakpoint instead of reshaped; .section_nav is defined at the end
-       of this file. */
-
     .hero {
         height: calc(100vh - 58.6px);
     }
 
     .hero_pagination {
-        display: none; /* replaced visually by .hero_progress, same as 480px */
+        display: none;
     }
 
     .desktop_section_nav {
-        display: none !important; /* desktop-only component; 768px keeps using #sectionNav instead */
+        display: none !important;
     }
 
     .hero_cta {
@@ -1273,29 +879,9 @@
         width: 51.6px;
     }
 
-    /* Re-examined against the reference recording: at 768px, Hero itself
-       shows NO scroll-indicator button at all (CTA, progress bar, and
-       pause button are all present, but the bottom-right corner is
-       empty). The control that appears from the section below Hero
-       onward — and persists across every section after that, swapping
-       between up/down depending on position — is a SEPARATE, page-level
-       component (.section_nav, see end of this file), not a restyled
-       .hero_scroll. .hero_scroll is hidden here rather than reshaped. */
     .hero_scroll {
         display: none;
     }
-
-
-
-    /* ── 3. VISION INTRO ("새로운 에너지 대전환 시대") ─────────────────────
-       Measured line-to-line spacing (~118px top-to-top) and glyph height
-       (~75px) both converge on a font-size at or very near desktop's 76px
-       — so unlike 480px, this is NOT shrunk. The desktop rule's
-       `white-space: nowrap` is what forces a single line at any width
-       narrower than the text's natural run length; replacing it with
-       `normal` + a max-width lets it break at the natural word boundary
-       ("새로운 에너지" / "대전환 시대") the reference shows, at the same
-       font-size desktop uses. */
 
     .vision {
         height: calc(100vh - 58.6px);
@@ -1309,15 +895,6 @@
         line-height: 1.3;
         word-break: keep-all;
     }
-
-
-    /* ── 4. CHALLENGE (turbine canvas) ───────────────────────────────────
-       Same finding as Vision: measured line spacing/glyph height for
-       "끊임없는 도전과 혁신으로" converge on desktop's 76px, not a reduced
-       size. Only white-space + max-width change, exactly mirroring the
-       Vision title above — the Challenge architecture itself
-       (challenge_sticky pin, JS-driven scale/Y/text lerp, .cw-word spans)
-       is viewport-size-agnostic already and needs no change. */
 
     .vision_text_wrap_2 {
         width: 92vw;
@@ -1333,14 +910,6 @@
         word-break: keep-all;
     }
 
-
-    /* ── 5. LEADER (earth + Korean text, inside .curtain-group) ──────────
-       "글로벌 에너지 리더로 나아갑니다" measured the same way (line gap
-       ~120px, glyph height ~74px) — again converges on desktop's 76px, not
-       a reduced size. Curtain-lift mechanism (applyCurtainLift, vh-based
-       translateY, TEXT_TRAVEL_VH) is untouched — already
-       vh/innerHeight-relative. */
-
     .leader h2 {
         font-size: 70px;
         white-space: normal;
@@ -1350,16 +919,6 @@
         text-align: center;
         word-break: keep-all;
     }
-
-
-    /* ── 6. VISION FINAL (Our Vision / Global Energy & Solution Leader) ──
-       Measured "Our Vision" cap-height (~30px) and "Global Energy &" cap-
-       height (~63px) both convert (at the standard ~0.7 cap-height/font-
-       size ratio for this Latin sans face) to figures within a few px of
-       desktop's 42px / 90px — so, same pattern as every other title in
-       this block, these are kept at their desktop sizes. Only wrap
-       behaviour changes (.vf-word spans already exist per-word; only
-       white-space + max-width need to change on the h2). */
 
     .vision_text_wrap_4 {
         width: 92vw;
@@ -1378,28 +937,6 @@
         line-height: 1.05;
         word-break: keep-all;
     }
-
-
-    /* ── 7. BUSINESS AREA ─────────────────────────────────────────────────
-       Reference shows a vertically stacked list (no horizontal marquee) —
-       same structural change as 480px, so the desktop marquee JS is gated
-       off at this width too (see main.js — the existing 480px-only
-       `matchMedia('(max-width:480px)')` guard is widened to 768px).
-
-       Measurements from the reference: section heading ("Business Area")
-       glyph cap-height (~46px) converts to ~64px — i.e. desktop's own
-       64px, unchanged. Body paragraph glyph height (~28px) converts (at a
-       Hangul cap-height ratio of ~0.85, since Korean glyphs read taller
-       relative to font-size than Latin caps) to ~32px — modestly larger
-       than desktop's 28px, used here directly rather than reusing the
-       480px value (16px), since the reference's body copy at this width
-       reads closer to desktop scale than to 480px scale.
-
-       Card aspect ratio is measured directly from the reference: card
-       width ~925px / height ~180px at a 768px viewport ≈ 5.14:1. Card
-       title cap-height (~28px) converts to ~39px, somewhat larger than
-       desktop's 26px — again the reference reads closer to desktop type
-       scale than to a linearly-scaled-down mobile size. */
 
     .business {
         padding: 64px 20px;
@@ -1423,7 +960,7 @@
     }
 
     .business .container_box {
-        display: none; /* prev/next is a desktop-only affordance, same as 480px — not present in the reference at this width */
+        display: none;
     }
 
     .business_slider {
@@ -1432,7 +969,7 @@
         margin-top: 32px;
         padding: 0 24px;
         width: 100%;
-        transform: none !important; /* JS marquee is gated off at this width — see main.js */
+        transform: none !important;
     }
 
     .business_area_item {
@@ -1463,30 +1000,6 @@
         width: 52px;
         height: 52px;
     }
-
-
-    /* ── 8. NEWSROOM ──────────────────────────────────────────────────────
-       Two-column layout, restored to the correct order. Visually:
-           [ Main Box ] [ Box 1   ]
-           [ Banner   ] [ Box 2   ]
-       i.e. source/DOM order Main Box → Box 1 → Banner → Box 2, auto-placed
-       by a 2-column grid (row-major placement gives exactly the row
-       pairing above without needing manual order integers per cell).
-
-       Desktop DOM nesting is .newsroom_container_box > [.main_box,
-       .center_area > [.box1, .box2], .news_banner] — .box1/.box2 are
-       nested one level deeper than .main_box/.news_banner, so a plain
-       `order` swap can't interleave them (order only works among siblings
-       in the same flex/grid context). `.center_area { display: contents; }`
-       removes .center_area's own box at this breakpoint, promoting .box1
-       and .box2 to true direct grid-children of .newsroom_container_box —
-       at that point all four blocks share one grid context. `order`
-       integers place them in the requested sequence (main_box(1) →
-       box1(2) → news_banner(3) → box2(4)), and the 2-column grid wraps
-       that sequence into the two rows shown above. Zero HTML changes,
-       zero DOM moves; desktop's .center_area rule (flex column, gap:24px,
-       outside any media query) is unaffected since this override only
-       exists in this 768px block. */
 
     .newsroom {
         padding: 64px 20px;
@@ -1563,49 +1076,8 @@
         height: 240px;
     }
 
-
-    /* ── 8.5 ESG ──────────────────────────────────────────────────────────
-       Reference shows the title+description block fully left-aligned at
-       the top, with the "더보기" button positioned independently top-right
-       (NOT inline with the first description line like 480px) — measured
-       button box ~878px-980px horizontally, ~195px-242px vertically,
-       sitting level with the description text rather than the title.
-
-       Stat blocks: measured 임직원 (stat_right, the featured one) sits
-       upper area starting just past the horizontal midpoint (~547px),
-       while 온실가스 (stat_left) sits lower-left flush with the viewport
-       edge — same relative arrangement as 480px, re-measured at this
-       width's own pixel positions rather than reusing the 480px numbers.
-
-       "ESG" title glyph cap-height (~40-45px) converts to roughly 56px —
-       a real reduction from desktop's 72px (unlike the cinematic scroll
-       titles in sections 3-6, this is a plain section heading, not part
-       of the word-sweep system, so it follows 480px's "shrink the
-       heading" pattern instead).
-
-       Cards: measured full-width, ~150px tall, stacked with ~15px gaps —
-       same structural pattern as 480px, re-measured proportions.
-
-       IMPORTANT — exactly as documented in the 480px block above: main.js's
-       ESG draw() loop writes the mask/window geometry as percentages of a
-       100×100 viewBox already, and sets opacity/transform via inline style
-       on .esg_desc/.esg_btn/.esg_card directly — inline styles always win
-       over CSS regardless of specificity. This block only ever touches
-       position/size/typography, never opacity/transform, so it can't fight
-       that rAF loop. */
-
-    /* .esg itself must stay full-bleed (no horizontal padding): it's the
-       460vh scroll-driver whose child .esg_sticky is position:sticky and
-       provides the full-viewport-width canvas the background/mask/window
-       layers rely on. Padding here shrinks .esg_sticky's box directly,
-       which is what caused the large white side margins — the original
-       KEPCO layout has no such inset. The 64px top spacing that matches
-       the other 768px sections (.business, .newsroom all use a 64px
-       section padding-top) is instead reproduced on .esg_header's own
-       top offset below, so the title sits the same distance from the
-       viewport top without touching .esg's box at all. */
     .esg {
-        padding: 0;
+        padding: 64px 20px;
     }
 
     .esg_header {
@@ -1695,30 +1167,6 @@
         width: 76px;
     }
 
-
-    /* ── 9. SERVICE ───────────────────────────────────────────────────────
-       Reference shows the desktop carousel STAYING ACTIVE at this width
-       (multiple ~280px cards visible per view, with peek of the next card,
-       plus the prev/next .service_control arrows) — distinct from 480px,
-       which gates the click carousel off entirely in favour of native
-       scroll-snap. No JS change is needed for the carousel itself: desktop's
-       existing `.service_contents article { width: clamp(280px, 24vw,
-       380px) }` already resolves to its 280px floor at a 768px viewport,
-       which is exactly the card width the reference shows — so the
-       click-driven moveSlider()/getMoveWidth() logic in main.js, which only
-       gates off at `max-width:480px`, continues to run correctly here
-       completely unchanged.
-
-       The only real change is `.service_text_wrap`: desktop lays out h2 and
-       p side-by-side with the p absolutely positioned (built for a much
-       wider canvas with room beside the headline); the reference instead
-       shows the description stacked directly below the heading as normal
-       block flow — same restructure as 480px's `.service_text_wrap`
-       override, re-measured: "Services" glyph cap-height (~48px) converts
-       to ~68px, within rounding of desktop's 72px (kept unchanged), while
-       the description's 2-line wrap and spacing match a normal in-flow
-       paragraph rather than the desktop overlay position. */
-
     .service {
         padding: 64px 0;
     }
@@ -1748,22 +1196,8 @@
         padding: 0 24px;
     }
 
-
-    /* ── 10. STATISTICS (.main_stat realtime power box) ──────────────────
-       Fresh comparison against the reference: box_body is NOT a desktop-
-       style row with the gauge beside the grid. The reference shows the
-       gauge in its own full-width row at the top (the gauge image itself
-       right-aligned within that row, not centered), with the power_info
-       grid below it spanning the same full width as the title — a column
-       stack, much closer to 480px's structure than to desktop's row. The
-       date/refresh row sits on its own line below the grid, right-
-       aligned. banner_box is a short row-layout card (title+button
-       stacked on the left, a centered illustration on the right) rather
-       than desktop's tall column with the image flush to the bottom
-       edge. */
-
     .main_stat {
-        padding: 32px 24px;
+        padding: 56px 24px;
     }
 
     .main_stat_inner {
@@ -1777,67 +1211,37 @@
         width: 100%;
     }
 
-    /* Reference layout:
-         [ title + button ]   [ gauge ]
-         [   power_info grid (full width)   ]
-         [                      date/refresh ]
-       box_head and box_body are sibling wrappers in the markup, each
-       holding only part of what needs to sit in the same row (box_head
-       holds the title block AND the date row; box_body holds the gauge
-       AND the grid). A wrapper-level flex/column on either one alone
-       can't put "title" and "gauge" side-by-side while "grid" spans
-       full width below, because that grouping cuts across both
-       wrappers. display:contents removes box_head/box_body from
-       rendering as boxes (without touching the DOM or any markup) so
-       their children become direct grid items of box_inner, which can
-       then place all four pieces with a real grid-template-areas flow:
-       sizing comes from the grid tracks, not fixed coordinates, so it
-       reflows normally if content changes. */
+    .banner_box {
+        padding: 32px 32px 0 32px;
+    }
+
+    .banner_box_head_contents {
+        margin-bottom: 12px;
+    }
+
+    .banner_box_head_contents h3 {
+        font-size: 22px;
+    }
+
+    .banner_box > img {
+        width: 26%;
+    }
+
     .box_inner {
-        display: grid;
-        grid-template-columns: 1fr 1fr;
-        grid-template-rows: auto auto auto;
-        grid-template-areas:
-            "title  gauge"
-            "grid   grid"
-            "date   date";
-        align-items: center;
-        column-gap: 20px;
-        row-gap: 20px;
         padding: 32px 28px;
         border-radius: 28px;
     }
 
-    .box_head,
-    .box_body {
-        display: contents;
+    .box_head {
+        margin-bottom: 28px;
     }
 
     .box_head_left {
-        grid-area: title;
         gap: 12px;
     }
 
-    .left_area {
-        grid-area: gauge;
-        width: 100%;
-        justify-self: end;
-    }
-
-    .power_info {
-        grid-area: grid;
-        width: 100%;
-        gap: 16px 20px;
-    }
-
-    .box_date_wrap {
-        grid-area: date;
-        justify-self: end;
-        margin-top: 0;
-    }
-
     .box_head_left h3 {
-        font-size: 23px;
+        font-size: 22px;
     }
 
     .cta a {
@@ -1849,13 +1253,27 @@
         font-size: 13px;
     }
 
+    .box_body {
+        flex-direction: column;
+        align-items: stretch;
+        gap: 32px;
+    }
+
+    .left_area {
+        width: 100%;
+    }
+
     .stat_gage {
-        justify-content: flex-end;
+        justify-content: center;
     }
 
     .stat_gage img {
-        width: 95%;
-        max-width: 300px;
+        width: 60%;
+    }
+
+    .power_info {
+        width: 100%;
+        gap: 20px 24px;
     }
 
     .power_item {
@@ -1871,35 +1289,6 @@
         font-size: 16px;
     }
 
-    /* banner_box: short row-layout card matching the reference — text
-       block on the left, illustration vertically centered on the right,
-       NOT desktop's tall column with the image flush against the bottom
-       edge. */
-    .banner_box {
-        flex-direction: row;
-        align-items: center;
-        justify-content: space-between;
-        gap: 20px;
-        padding: 32px;
-    }
-
-    .banner_box_head_contents {
-        margin-bottom: 0;
-        width: auto;
-        flex-shrink: 0;
-    }
-
-    .banner_box_head_contents h3 {
-        font-size: 20px;
-        margin-bottom: 14px;
-    }
-
-    .banner_box > img {
-        width: 18%;
-        margin-left: 0;
-        align-self: center;
-    }
-
     .go_top_btn{
         position:absolute;
         right:2px;
@@ -1911,16 +1300,6 @@
         visibility:visible;
         transform:none;
     }
-
-
-    /* ── 11. FOOTER ───────────────────────────────────────────────────────
-       footer_left/footer_right stack into a single column at this width —
-       same structural direction as 480px. The reference recording shows
-       additional footer accordion menu rows (회사소개/사업분야/정보공개/
-       ESG경영/홍보센터/고객소통) that do not exist anywhere in this
-       project's HTML; per this task's restriction against modifying HTML
-       structure, no new markup is introduced to fabricate that accordion —
-       only the existing footer_left/footer_right elements are restacked. */
 
     footer {
         padding: 32px 0 40px;
@@ -1976,24 +1355,6 @@
         margin-top: 24px;
     }
 
-
-    /* ── 12. SECTION NAV — persistent up/down navigator ──────────────────
-       Confirmed from the reference recording: this is a SEPARATE
-       component from .hero_scroll, not a restyled version of it.
-         - Absent entirely while Hero is on screen.
-         - Appears from the section directly below Hero onward, and stays
-           on screen (fixed position) through every section after that.
-         - Shows an up arrow once there is a previous section to return
-           to, and a down arrow once there is a next section below —
-           each one hidden via a JS-applied class when there is nothing
-           in that direction (see main.js, "SECTION NAV" block), matching
-           the reference where the down arrow disappears on the last
-           section and no up arrow exists while still at the very top.
-       Visual spec measured from the recording: two stacked rounded-square
-       buttons, dark semi-transparent fill at rest, a lighter/teal tint on
-       hover, white stem+arrowhead arrow icon, sitting bottom-right with a
-       small gap between the two buttons. */
-
     .section_nav {
         display: flex;
         flex-direction: column;
@@ -2008,10 +1369,6 @@
         transition: opacity .2s ease, visibility .2s ease;
     }
 
-    /* main.js adds this once the viewport has scrolled past Hero into the
-       first tracked section — the reference shows the control fully
-       absent while Hero is on screen, matched here the same way
-       .go_top_btn already gates its own mobile visibility on a JS class. */
     .section_nav.is-active {
         opacity: 1;
         visibility: visible;
@@ -2035,12 +1392,6 @@
         background: rgba(60, 110, 130, 0.7);
     }
 
-    /* Arrow icon: a single reliable inline-SVG background per direction
-       (stem + arrowhead drawn as one path), avoiding the parent-rotation/
-       child-counter-rotation approach used elsewhere in this file — that
-       technique requires the child's local anchor point to land exactly
-       on the rotated parent's visual vertex, which does not hold here for
-       an 11px corner box, so a self-contained SVG glyph is used instead. */
     .section_nav_btn span {
         display: block;
         width: 15px;
@@ -2057,9 +1408,6 @@
         background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='15' height='15' viewBox='0 0 15 15'%3E%3Cpath d='M3 6L7.5 10.5L12 6' stroke='white' stroke-width='2' fill='none' stroke-linecap='round' stroke-linejoin='round'/%3E%3Cline x1='7.5' y1='10.5' x2='7.5' y2='3.5' stroke='white' stroke-width='2' stroke-linecap='round'/%3E%3C/svg%3E");
     }
 
-    /* JS toggles these when there is nothing in that direction to jump
-       to — hidden via opacity/visibility (not display:none) so layout
-       doesn't jump as the remaining button repositions. */
     .section_nav_btn.is-hidden {
         opacity: 0;
         visibility: hidden;
