@@ -106,8 +106,6 @@
 
 }());
 
-gsap.registerPlugin(ScrollTrigger);
-
 function clamp(v, lo, hi) { return Math.min(Math.max(v, lo), hi); }
 function lerp(a, b, t)    { return a + (b - a) * t; }
 
@@ -187,7 +185,6 @@ function activateWordSweep(words, progress, endColor) {
     const wrap     = challengeSection.querySelector('.challenge_canvas_wrap');
     const canvas   = challengeSection.querySelector('.challenge_canvas');
     const textWrap = challengeSection.querySelector('.vision_text_wrap_2');
-    const challengeTitleEl = challengeSection.querySelector('.vision_text_wrap_2 h2');
     const cwWords   = Array.from(challengeSection.querySelectorAll('.cw-word'));
     if (!canvas || !wrap) return;
 
@@ -203,7 +200,6 @@ function activateWordSweep(words, progress, endColor) {
     const Y_END        = -68;
 
     const TEXT_Y_START = window.innerHeight * 0.55;
-    const TEXT_Y_END   = -(window.innerHeight * 0.12);
     const TEXT_START_FRAC = 0.05;
 
     function clamp(v, lo, hi) { return Math.min(Math.max(v, lo), hi); }
@@ -599,13 +595,13 @@ function activateWordSweep(words, progress, endColor) {
     function clamp(v, lo, hi) { return Math.min(Math.max(v, lo), hi); }
     function lerp(a, b, t)    { return a + (b - a) * t; }
     function easeOut(t)        { return 1 - Math.pow(1 - t, 3); }
-    function stagger(p, s, e)  { return clamp((p - s) / (e - s), 0, 1); }
+    function stagger(p, start, end)  { return clamp((p - start) / (end - start), 0, 1); }
 
     function revealUp(el, prog, dist, riseVh) {
-        const e = easeOut(prog);
-        el.style.opacity   = e;
+        const eased = easeOut(prog);
+        el.style.opacity   = eased;
         const riseStyle = riseVh ? ` translateY(${-riseVh}vh)` : '';
-        el.style.transform = `translateY(${lerp(dist, 0, e)}px)${riseStyle}`;
+        el.style.transform = `translateY(${lerp(dist, 0, eased)}px)${riseStyle}`;
     }
 
     function barPath(x, topY, w, r) {
@@ -653,9 +649,9 @@ function activateWordSweep(words, progress, endColor) {
         const rightRiseVh = isCompact ? RIGHT_TOP_START - rightTop : 0;
 
         bgColor.style.setProperty('--reveal', `${lerp(0, 115, colorEase)}%`);
-        const sc = lerp(1.08, 1, colorEase);
-        bgBase .style.transform = `scale(${sc})`;
-        bgColor.style.transform = `scale(${sc})`;
+        const scale = lerp(1.08, 1, colorEase);
+        bgBase .style.transform = `scale(${scale})`;
+        bgColor.style.transform = `scale(${scale})`;
 
         const maskFade = clamp((colorEase - 0.28) / 0.72, 0, 1);
         whiteMask.style.opacity = lerp(1, 0, maskFade);
