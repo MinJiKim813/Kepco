@@ -543,8 +543,6 @@
 
     .service_contents article {
         scroll-snap-align: start;
-        width: calc(100vw - 40px);
-        flex-shrink: 0;
     }
 
     .main_stat {
@@ -670,6 +668,65 @@
         justify-content: flex-start;
         flex-wrap: wrap;
         margin-top: 20px;
+    }
+
+    .section_nav {
+        display: flex;
+        flex-direction: column;
+        gap: 6px;
+        position: fixed;
+        right: 16px;
+        bottom: 24px;
+        z-index: 60;
+        opacity: 0;
+        visibility: hidden;
+        pointer-events: none;
+        transition: opacity .2s ease, visibility .2s ease;
+    }
+
+    .section_nav.is-active {
+        opacity: 1;
+        visibility: visible;
+        pointer-events: auto;
+    }
+
+    .section_nav_btn {
+        width: 39px;
+        height: 39px;
+        border: none;
+        background: rgba(20, 22, 30, 0.55);
+        border-radius: 10px;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        transition: background-color .2s ease, opacity .2s ease, visibility .2s ease;
+    }
+
+    .section_nav_btn:hover {
+        background: rgba(60, 110, 130, 0.7);
+    }
+
+    .section_nav_btn span {
+        display: block;
+        width: 15px;
+        height: 15px;
+        background-repeat: no-repeat;
+        background-size: contain;
+    }
+
+    .section_nav_up span {
+        background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='15' height='15' viewBox='0 0 15 15'%3E%3Cpath d='M3 9L7.5 4.5L12 9' stroke='white' stroke-width='2' fill='none' stroke-linecap='round' stroke-linejoin='round'/%3E%3Cline x1='7.5' y1='4.5' x2='7.5' y2='11.5' stroke='white' stroke-width='2' stroke-linecap='round'/%3E%3C/svg%3E");
+    }
+
+    .section_nav_down span {
+        background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='15' height='15' viewBox='0 0 15 15'%3E%3Cpath d='M3 6L7.5 10.5L12 6' stroke='white' stroke-width='2' fill='none' stroke-linecap='round' stroke-linejoin='round'/%3E%3Cline x1='7.5' y1='10.5' x2='7.5' y2='3.5' stroke='white' stroke-width='2' stroke-linecap='round'/%3E%3C/svg%3E");
+    }
+
+    .section_nav_btn.is-hidden {
+        opacity: 0;
+        visibility: hidden;
+        pointer-events: none;
     }
 
 }
@@ -1077,7 +1134,7 @@
     }
 
     .esg {
-        padding: 64px 20px;
+        padding: 0;
     }
 
     .esg_header {

@@ -249,7 +249,7 @@ function activateWordSweep(words, progress, endColor) {
     resizeCanvas();
 
     const preloadPromises = URLS.map((url, i) =>
-        fetch(url)
+        fetch(url, { priority: 'low' })
             .then(r  => { if (!r.ok) throw new Error(`HTTP ${r.status}`); return r.blob(); })
             .then(b  => createImageBitmap(b))
             .then(bmp => {
@@ -398,6 +398,8 @@ function activateWordSweep(words, progress, endColor) {
         activateWordSweep(cwWords, sweepP);
     }
 
+    const CURTAIN_SNAP_THRESHOLD = 0.15;
+
     function tick() {
         rafId = null;
 
@@ -407,11 +409,25 @@ function activateWordSweep(words, progress, endColor) {
 
         smoothProgress  += diffMain    * LERP;
         textProgress    += diffText    * TEXT_LERP;
-        curtainProgress += diffCurtain * CURTAIN_LERP;
+
+        // A fast scroll (mouse-wheel fling, trackpad flick, or a large
+        // jump) can move targetProgress far ahead of curtainProgress in a
+        // single frame. Easing that gap at CURTAIN_LERP takes several
+        // frames to catch up, and until it does, .challenge_sticky (which
+        // fully covers .leader) stays rendered at its un-lifted position —
+        // this is the "white/blank flash" reported: the curtain hasn't
+        // visually caught up to where the scroll position already is.
+        // Snap instantly for large gaps; keep easing for small ones so the
+        // normal-scroll animation feel is unchanged.
+        if (Math.abs(diffCurtain) > CURTAIN_SNAP_THRESHOLD) {
+            curtainProgress = targetProgress;
+        } else {
+            curtainProgress += diffCurtain * CURTAIN_LERP;
+        }
 
         if (Math.abs(diffMain)    < 0.00015) smoothProgress  = targetProgress;
         if (Math.abs(diffText)    < 0.00015) textProgress    = targetProgress;
-        if (Math.abs(diffCurtain) < 0.00015) curtainProgress = targetProgress;
+        if (Math.abs(targetProgress - curtainProgress) < 0.00015) curtainProgress = targetProgress;
 
         applyFrame(smoothProgress);
         applyTransform(smoothProgress);
@@ -713,41 +729,33 @@ function activateWordSweep(words, progress, endColor) {
     const serviceSlider = document.querySelector(".service_contents");
     if (!serviceSlider) return;
 
-    if (window.matchMedia('(max-width: 480px)').matches) {
-        const mobilePrev = document.querySelector(".service .prev");
-        const mobileNext = document.querySelector(".service .next");
-
-        function mobileCardStep() {
-            const card = serviceSlider.querySelector("article");
-            if (!card) return 0;
-            const gap = parseFloat(getComputedStyle(serviceSlider).gap) || 0;
-            return card.getBoundingClientRect().width + gap;
-        }
-
-        if (mobileNext) {
-            mobileNext.addEventListener("click", () => {
-                serviceSlider.scrollBy({ left: mobileCardStep(), behavior: "smooth" });
-            });
-        }
-        if (mobilePrev) {
-            mobilePrev.addEventListener("click", () => {
-                serviceSlider.scrollBy({ left: -mobileCardStep(), behavior: "smooth" });
-            });
-        }
-        return;
-    }
-
-    serviceSlider.insertBefore(
-        serviceSlider.lastElementChild,
-        serviceSlider.firstElementChild
-    );
-
-    const originals = [...serviceSlider.children];
-    originals.forEach(card => serviceSlider.appendChild(card.cloneNode(true)));
-
     const servicePrev = document.querySelector(".service .prev");
     const serviceNext = document.querySelector(".service .next");
-    let currentIndex  = 0;
+
+    const isMobile = () => window.matchMedia('(max-width: 480px)').matches;
+
+    let mode         = null;   // 'mobile' | 'desktop'
+    let currentIndex = 0;
+    let originals    = null;   // set once, first time desktop mode is entered
+
+    // ---- mobile (native scroll) behavior ----
+
+    function mobileCardStep() {
+        const card = serviceSlider.querySelector("article");
+        if (!card) return 0;
+        const gap = parseFloat(getComputedStyle(serviceSlider).gap) || 0;
+        return card.getBoundingClientRect().width + gap;
+    }
+
+    function mobileNextHandler() {
+        serviceSlider.scrollBy({ left: mobileCardStep(), behavior: "smooth" });
+    }
+
+    function mobilePrevHandler() {
+        serviceSlider.scrollBy({ left: -mobileCardStep(), behavior: "smooth" });
+    }
+
+    // ---- desktop/tablet (transform-based, infinite loop) behavior ----
 
     function getMoveWidth() {
         const card = serviceSlider.querySelector("article");
@@ -760,20 +768,76 @@ function activateWordSweep(words, progress, endColor) {
         serviceSlider.style.transform  = `translateX(-${currentIndex * getMoveWidth()}px)`;
     }
 
-    if (serviceNext) {
-        serviceNext.addEventListener("click", () => {
-            currentIndex++;
-            moveSlider();
-            if (currentIndex >= originals.length) {
-                serviceSlider.addEventListener("transitionend", function reset() {
-                    serviceSlider.style.transition = "none";
-                    currentIndex = 0;
-                    serviceSlider.style.transform  = "translateX(0px)";
-                    serviceSlider.removeEventListener("transitionend", reset);
-                }, { once: true });
-            }
-        });
+    function desktopNextHandler() {
+        currentIndex++;
+        moveSlider();
+        if (currentIndex >= originals.length) {
+            serviceSlider.addEventListener("transitionend", function reset() {
+                serviceSlider.style.transition = "none";
+                currentIndex = 0;
+                serviceSlider.style.transform  = "translateX(0px)";
+                serviceSlider.removeEventListener("transitionend", reset);
+            }, { once: true });
+        }
     }
+
+    function desktopPrevHandler() {
+        const cw = getMoveWidth();
+        // Move the last card to the front, then instantly compensate the
+        // offset so nothing visually jumps, then animate back to reveal it.
+        serviceSlider.insertBefore(serviceSlider.lastElementChild, serviceSlider.firstElementChild);
+        serviceSlider.style.transition = "none";
+        serviceSlider.style.transform  = `translateX(-${(currentIndex + 1) * cw}px)`;
+        requestAnimationFrame(() => requestAnimationFrame(() => {
+            serviceSlider.style.transition = "transform .8s cubic-bezier(.22,.61,.36,1)";
+            serviceSlider.style.transform  = `translateX(-${currentIndex * cw}px)`;
+        }));
+    }
+
+    // ---- shared click dispatch (mode is re-evaluated on resize) ----
+
+    function onNextClick() {
+        if (mode === 'mobile') mobileNextHandler(); else desktopNextHandler();
+    }
+
+    function onPrevClick() {
+        if (mode === 'mobile') mobilePrevHandler(); else desktopPrevHandler();
+    }
+
+    if (serviceNext) serviceNext.addEventListener("click", onNextClick);
+    if (servicePrev) servicePrev.addEventListener("click", onPrevClick);
+
+    function setupDesktop() {
+        if (mode === 'desktop') return;
+        mode = 'desktop';
+
+        if (!originals) {
+            serviceSlider.insertBefore(
+                serviceSlider.lastElementChild,
+                serviceSlider.firstElementChild
+            );
+            originals = [...serviceSlider.children];
+            originals.forEach(card => serviceSlider.appendChild(card.cloneNode(true)));
+        }
+
+        currentIndex = 0;
+        serviceSlider.style.transition = "none";
+        serviceSlider.style.transform  = "translateX(0px)";
+    }
+
+    function setupMobile() {
+        if (mode === 'mobile') return;
+        mode = 'mobile';
+        serviceSlider.style.transition = "";
+        serviceSlider.style.transform  = "";
+    }
+
+    function evaluateBreakpoint() {
+        if (isMobile()) setupMobile(); else setupDesktop();
+    }
+
+    evaluateBreakpoint();
+    window.addEventListener('resize', evaluateBreakpoint);
 
 }());
 
@@ -833,6 +897,7 @@ if (goTopBtn) {
     if (!nav || !upBtn || !downBtn) return;
 
     const sectionSelectors = [
+        '.hero',
         '.vision',
         '.curtain-group',
         '.vision_final',
