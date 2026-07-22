@@ -1,5 +1,6 @@
 body {
     padding-top: 70px;
+    font-family: 'Noto Sans KR', -apple-system, BlinkMacSystemFont, 'Malgun Gothic', sans-serif;
 }
 
 .header {
@@ -144,7 +145,8 @@ body {
     display: block;
 }
 
-.gnb > ul > li:hover .sub_menu {
+.gnb > ul > li:hover .sub_menu,
+.gnb > ul > li:focus-within .sub_menu {
     display: block;
 }
 

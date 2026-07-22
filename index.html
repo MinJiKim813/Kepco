@@ -1,9 +1,14 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ko">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>한국전력공사</title>
+    <meta name="description" content="한국전력공사(KEPCO) 웹사이트 클론 코딩 프로젝트">
+    <link rel="icon" href="images/logo.svg" type="image/svg+xml">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="default.css">
     <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" href="res.css">
@@ -18,7 +23,7 @@
             <nav class="gnb">
                 <ul>
                     <li>
-                        <a href="#">회사소개</a>
+                        <a href="#" aria-haspopup="true">회사소개</a>
                         <div class="sub_menu">
                             <div class="sub_inner">
                                 <div class="sub_intro">
@@ -64,7 +69,7 @@
                         </div>
                     </li>
                     <li>
-                        <a href="#">사업분야</a>
+                        <a href="#" aria-haspopup="true">사업분야</a>
                         <div class="sub_menu">
                             <div class="sub_inner">
                                 <div class="sub_intro">
@@ -92,7 +97,7 @@
                         </div>
                     </li>
                     <li>
-                        <a href="#">정보공개</a>
+                        <a href="#" aria-haspopup="true">정보공개</a>
                         <div class="sub_menu">
                             <div class="sub_inner">
                                 <div class="sub_intro">
@@ -144,7 +149,7 @@
                         </div>
                     </li>
                     <li>
-                        <a href="#">ESG경영</a>
+                        <a href="#" aria-haspopup="true">ESG경영</a>
                         <div class="sub_menu">
                             <div class="sub_inner">
                                 <div class="sub_intro">
@@ -199,7 +204,7 @@
                         </div>
                     </li>
                     <li>
-                        <a href="#">홍보센터</a>
+                        <a href="#" aria-haspopup="true">홍보센터</a>
                         <div class="sub_menu">
                             <div class="sub_inner">
                                 <div class="sub_intro">
@@ -238,7 +243,7 @@
                         </div>
                     </li>
                     <li>
-                        <a href="#">고객소통</a>
+                        <a href="#" aria-haspopup="true">고객소통</a>
                         <div class="sub_menu">
                             <div class="sub_inner">
                                 <div class="sub_intro">
@@ -470,7 +475,7 @@
                 loop
                 playsinline
             >
-            <source src="https://www.kepco.co.kr/KEPCO_FILE/mainPage/504b8f86-d411-4355-8d95-c58754a8a7a5" type="video/mp4">
+            <source src="video/main.mp4" type="video/mp4">
         </video>
 
         <div class="hero_overlay"></div>
@@ -585,7 +590,7 @@
             <div class="business_area_item">
             <a href="#" class="business_card">
 
-                <img src="images/Tower_Thumbnail.jpg" alt="바다 위에 늘어선 송전철탑과 전력선">
+                <img loading="lazy" src="images/Tower_Thumbnail.jpg" alt="바다 위에 늘어선 송전철탑과 전력선">
 
                 <div class="business_content">
                     <h3>송배전 사업</h3>
@@ -596,7 +601,7 @@
                 </div>
 
                 <div class="business_icon">
-                    <img src="icons/transmission.svg" alt="">
+                    <img loading="lazy" src="icons/transmission.svg" alt="">
                 </div>
             </a>
         </div>
@@ -604,7 +609,7 @@
         <div class="business_area_item">
             <a href="#" class="business_card">
 
-                <img src="images/Building_Thumbnail.jpg" alt="디지털 그리드가 표시된 미래도시 빌딩">
+                <img loading="lazy" src="images/Building_Thumbnail.jpg" alt="디지털 그리드가 표시된 미래도시 빌딩">
 
                 <div class="business_content">
                     <h3>판매·수요관리 바로가기</h3>
@@ -615,7 +620,7 @@
                 </div>
 
                 <div class="business_icon">
-                    <img src="icons/sale.svg" alt="">
+                    <img loading="lazy" src="icons/sale.svg" alt="">
                 </div>
             </a>
         </div>
@@ -623,7 +628,7 @@
         <div class="business_area_item">
             <a href="#" class="business_card">
 
-                <img src="images/Energy_Thumbnail.jpg" alt="해상 풍력발전 단지와 에너지 데이터를 보여주는 디지털 화면">
+                <img loading="lazy" src="images/Energy_Thumbnail.jpg" alt="해상 풍력발전 단지와 에너지 데이터를 보여주는 디지털 화면">
 
                 <div class="business_content">
                     <h3>에너지신사업</h3>
@@ -634,7 +639,7 @@
                 </div>
 
                 <div class="business_icon">
-                    <img src="icons/energy.svg" alt="">
+                    <img loading="lazy" src="icons/energy.svg" alt="">
                 </div>
             </a>
         </div>
@@ -642,7 +647,7 @@
         <div class="business_area_item">
             <a href="#" class="business_card">
 
-                <img src="images/Earth_Oversea_Thumbnail.jpg" alt="글로벌 전력 네트워크 궤도가 표시된 지구 이미지">
+                <img loading="lazy" src="images/Earth_Oversea_Thumbnail.jpg" alt="글로벌 전력 네트워크 궤도가 표시된 지구 이미지">
 
                 <div class="business_content">
                     <h3>해외사업</h3>
@@ -653,7 +658,7 @@
                 </div>
 
                 <div class="business_icon">
-                    <img src="icons/oversea.svg" alt="">
+                    <img loading="lazy" src="icons/oversea.svg" alt="">
                 </div>
             </a>
         </div>
@@ -661,7 +666,7 @@
         <div class="business_area_item">
             <a href="#" class="business_card">
 
-                <img src="images/RND_Thumbnail.jpg" alt="연구진이 디지털 발전기 모델을 분석하는 연구개발 공간">
+                <img loading="lazy" src="images/RND_Thumbnail.jpg" alt="연구진이 디지털 발전기 모델을 분석하는 연구개발 공간">
 
                 <div class="business_content">
                     <h3>연구개발</h3>
@@ -672,7 +677,7 @@
                 </div>
 
                 <div class="business_icon">
-                    <img src="icons/rnd.svg" alt="">
+                    <img loading="lazy" src="icons/rnd.svg" alt="">
                 </div>
             </a>
         </div>
@@ -698,7 +703,7 @@
                         <a href="#">
 
                             <div class="main_box_thumb">
-                                <img src="images/Thumbnail_image_home_blank.png" alt="">
+                                <img loading="lazy" src="images/Thumbnail_image_home_blank.png" alt="한전, 사우디 자푸라 2단계 열병합 사업 수주 관련 이미지">
                             </div>
 
                             <div class="main_box_desc">
@@ -771,7 +776,7 @@
                                     <span>보도자료</span>
                                 </div>
 
-                                <img src="images/box2_0thumbnail.jpg" alt="">
+                                <img loading="lazy" src="images/box2_0thumbnail.jpg" alt="한전, 제9회 전국동시지방선거 및 재보궐선거 대비 무결점 전력공급 관련 이미지">
 
                                 <h3>한전, 제9회 전국동시지방선거 및 재보궐선거 대비 '무결점 전력공급' 총력</h3>
 
@@ -785,7 +790,7 @@
                                     <span>보도자료</span>
                                 </div>
 
-                                <img src="images/box2_1thumbnail.jpg" alt="">
+                                <img loading="lazy" src="images/box2_1thumbnail.jpg" alt="한전, 전력기자재 구매 계약 절차 개선 관련 이미지">
 
                                 <h3>한전, 전력기자재 구매 계약 절차 개선으로 투명성과 조달 안정성 높인다</h3>
 
@@ -799,7 +804,7 @@
                                     <span>보도자료</span>
                                 </div>
 
-                                <img src="images/box2_2thumbnail.jpg" alt="">
+                                <img loading="lazy" src="images/box2_2thumbnail.jpg" alt="한전, 슬기로운 전기생활 공모전 개최 관련 이미지">
 
                                 <h3>한전, 에너지 절약 문화 확산을 위한 슬기로운 전기생활 공모전 개최</h3>
 
@@ -817,13 +822,13 @@
 
                             <div class="news_banner_slide">
 
-                                <img src="images/newsroom_banner1.jpg" alt="국민주권정부 38대 대표 성과 홍보자료집 안내 배너">
-                                <img src="images/newsroom_banner2.jpg" alt="기후행동 실천 선언 이벤트 안내 배너">
-                                <img src="images/newsroom_banner3.jpg" alt="시간대별 전기요금 개편 관련 가짜뉴스 정정 안내 배너">
-                                <img src="images/newsroom_banner4.jpg" alt="에너지 절약 동참 캠페인 안내 배너">
-                                <img src="images/newsroom_banner5.jpg" alt="송·변전건설 정보공개 플랫폼 안내 배너">
-                                <img src="images/newsroom_banner6.jpg" alt="AI 전용관 소개 배너">
-                                <img src="images/newsroom_banner7.jpg" alt="2025년도 공공기관 종합청렴도 평가 3등급 결과 안내">
+                                <img loading="lazy" src="images/newsroom_banner1.jpg" alt="국민주권정부 38대 대표 성과 홍보자료집 안내 배너">
+                                <img loading="lazy" src="images/newsroom_banner2.jpg" alt="기후행동 실천 선언 이벤트 안내 배너">
+                                <img loading="lazy" src="images/newsroom_banner3.jpg" alt="시간대별 전기요금 개편 관련 가짜뉴스 정정 안내 배너">
+                                <img loading="lazy" src="images/newsroom_banner4.jpg" alt="에너지 절약 동참 캠페인 안내 배너">
+                                <img loading="lazy" src="images/newsroom_banner5.jpg" alt="송·변전건설 정보공개 플랫폼 안내 배너">
+                                <img loading="lazy" src="images/newsroom_banner6.jpg" alt="AI 전용관 소개 배너">
+                                <img loading="lazy" src="images/newsroom_banner7.jpg" alt="2025년도 공공기관 종합청렴도 평가 3등급 결과 안내">
 
                             </div>
 
@@ -914,7 +919,7 @@
                         <p>ISO 14001</p>
                     </div>
                     <div class="card_icon">
-                        <img src="images/iso-14001.png" alt="ISO14001">
+                        <img loading="lazy" src="images/iso-14001.png" alt="ISO14001">
                     </div>
                 </article>
 
@@ -924,7 +929,7 @@
                         <p>ISO 45001</p>
                     </div>
                     <div class="card_icon">
-                        <img src="images/iso-45001.png" alt="ISO45001">
+                        <img loading="lazy" src="images/iso-45001.png" alt="ISO45001">
                     </div>
                 </article>
 
@@ -934,7 +939,7 @@
                         <p>ISO 37001</p>
                     </div>
                     <div class="card_icon">
-                        <img src="images/iso-37001.png" alt="ISO37001">
+                        <img loading="lazy" src="images/iso-37001.png" alt="ISO37001">
                     </div>
                 </article>
 
@@ -961,7 +966,7 @@
         <div class="service_contents">
             <article>
                 <div class="service_thumbnail">
-                    <img src="images/service_thumbnail1.jpg" alt="한전ON 모바일 서비스 화면 캡처">
+                    <img loading="lazy" src="images/service_thumbnail1.jpg" alt="한전ON 모바일 서비스 화면 캡처">
                     <span>01</span>
                 </div>
  
@@ -972,7 +977,7 @@
             </article>
             <article>
                 <div class="service_thumbnail">
-                    <img src="images/service_thumbnail2.jpg" alt="에너지마켓플레이스 플랫폼 화면이 표시된 노트북">
+                    <img loading="lazy" src="images/service_thumbnail2.jpg" alt="에너지마켓플레이스 플랫폼 화면이 표시된 노트북">
                     <span>02</span>
                 </div>
 
@@ -983,7 +988,7 @@
             </article>
             <article>
                 <div class="service_thumbnail">
-                    <img src="images/service_thumbnail3.jpg" alt="파워플래너 앱으로 전기 사용량을 확인하는 모습">
+                    <img loading="lazy" src="images/service_thumbnail3.jpg" alt="파워플래너 앱으로 전기 사용량을 확인하는 모습">
                     <span>03</span>
                 </div>
 
@@ -994,7 +999,7 @@
             </article>
             <article>
                 <div class="service_thumbnail">
-                    <img src="images/service_thumbnail4.jpg" alt="파워체크 모바일 로그인 화면">
+                    <img loading="lazy" src="images/service_thumbnail4.jpg" alt="파워체크 모바일 로그인 화면">
                     <span>04</span>
                 </div>
 
@@ -1005,7 +1010,7 @@
             </article>
             <article>
                 <div class="service_thumbnail">
-                    <img src="images/service_thumbnail5.jpg" alt="KEPCO PLUG 앱으로 전기차 충전소를 안내하는 화면">
+                    <img loading="lazy" src="images/service_thumbnail5.jpg" alt="KEPCO PLUG 앱으로 전기차 충전소를 안내하는 화면">
                     <span>05</span>
                 </div>
 
@@ -1016,7 +1021,7 @@
             </article>
             <article>
                 <div class="service_thumbnail">
-                    <img src="images/service_thumbnail6.jpg" alt="">
+                    <img loading="lazy" src="images/service_thumbnail6.jpg" alt="한전 전자조달시스템 화면">
                     <span>06</span>
                 </div>
 
@@ -1027,7 +1032,7 @@
             </article>
             <article>
                 <div class="service_thumbnail">
-                    <img src="images/service_thumbnail7.jpg" alt="">
+                    <img loading="lazy" src="images/service_thumbnail7.jpg" alt="에너지밸리 플랫폼 화면">
                     <span>07</span>
                 </div>
 
@@ -1038,7 +1043,7 @@
             </article>
             <article>
                 <div class="service_thumbnail">
-                    <img src="images/service_thumbnail8.jpg" alt="">
+                    <img loading="lazy" src="images/service_thumbnail8.jpg" alt="특허거래소 서비스 화면">
                     <span>08</span>
                 </div>
 
@@ -1068,7 +1073,7 @@
                         <div class="box_date_wrap">
                             <span>06. 12. (금) 오전 11:09</span>
                             <button>
-                                <img src="icons/refreshpush.svg" alt="새로고침">
+                                <img loading="lazy" src="icons/refreshpush.svg" alt="새로고침">
                             </button>
                         </div>
                     </div>
@@ -1077,7 +1082,7 @@
 
                         <div class="left_area">
                             <div class="stat_gage">
-                                <img src="images/stat_gage.svg" alt="실시간 전력 수급 게이지">
+                                <img loading="lazy" src="images/stat_gage.svg" alt="실시간 전력 수급 게이지">
                             </div>
                         </div>
 
@@ -1117,12 +1122,12 @@
                     <a href="#">더 보기</a>
                 </div>
 
-                <img src="images/stat-banner-img.svg" alt="">
+                <img loading="lazy" src="images/stat-banner-img.svg" alt="">
 
             </div>
 
             <button class="go_top_btn">
-                <img src="icons/go_top.svg" alt="맨 위로 이동">
+                <img loading="lazy" src="icons/go_top.svg" alt="맨 위로 이동">
             </button>
 
         </div>
@@ -1132,17 +1137,17 @@
         <div class="footer_inner">
             <div class="footer_left">
                 <h1 class="footer_logo">
-                    <img src="images/logo.svg" alt="한국전력공사 로고">
+                    <img loading="lazy" src="images/logo.svg" alt="한국전력공사 로고">
                 </h1>
                 <div class="footer_left_contents">
                     <div class="footer_info_address">
                         <p>(우) 58322 전라남도 나주시 전력로 55 (빛가람동 120)</p>
                         <div class="footer_sns">
                             <a href="#">
-                                <img src="icons/footer_youtube.svg" alt="유튜브">
+                                <img loading="lazy" src="icons/footer_youtube.svg" alt="유튜브">
                             </a>
                             <a href="#">
-                                <img src="icons/footer_insta.svg" alt="인스타그램">
+                                <img loading="lazy" src="icons/footer_insta.svg" alt="인스타그램">
                             </a>
                         </div>
                     </div>
@@ -1168,10 +1173,10 @@
                 </div>
 
                 <div class="footer_awards_logo">
-                    <img src="images/webaward1.png" alt="2025 Web Award 혁신상">
-                    <img src="images/logo_awards2.png" alt="2025 ICT Award Korea 대상">
-                    <img src="images/si_tech.png" alt="2025 Si-Tech Innovation Award 대상">
-                    <img src="images/logo_wa.png" alt="과학기술정보통신부 웹 접근성 우수사이트 인증마크">
+                    <img loading="lazy" src="images/webaward1.png" alt="2025 Web Award 혁신상">
+                    <img loading="lazy" src="images/logo_awards2.png" alt="2025 ICT Award Korea 대상">
+                    <img loading="lazy" src="images/si_tech.png" alt="2025 Si-Tech Innovation Award 대상">
+                    <img loading="lazy" src="images/logo_wa.png" alt="과학기술정보통신부 웹 접근성 우수사이트 인증마크">
                 </div>
             </div>
         </div>
@@ -1209,7 +1214,5 @@
 
 </body>
 
-<script src="https://cdn.jsdelivr.net/npm/gsap@3/dist/gsap.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/gsap@3/dist/ScrollTrigger.min.js"></script>
 <script src="main.js"></script>
 </html>
